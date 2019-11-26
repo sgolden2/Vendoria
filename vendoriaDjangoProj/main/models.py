@@ -42,7 +42,6 @@ class Manufacturer(models.Model):
 
 class Product(models.Model):
     model = models.CharField(max_length=20)
-    brand = models.CharField(max_length=20)
     price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
     category = models.CharField(max_length=30)
