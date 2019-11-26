@@ -76,12 +76,12 @@ WSGI_APPLICATION = 'vendoriaDjangoProj.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'VendoriaDB',
-        'USER': 'sgolden2',
-        'PASSWORD': 'Tesla2000',
-        'HOST': 'localhost',
-        'PORT': '',
+        #'USER': 'sgolden2',
+        #'PASSWORD': 'Tesla2000',
+        #'HOST': 'localhost',
+        #'PORT': '',
     }
 }
 
