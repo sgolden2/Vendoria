@@ -20,7 +20,9 @@ app_name = "main"
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
+    path('header/', views.header, name='header'),
     path('manufacturers/', views.manufacturers, name='manufacturers'),
     path('shippers/', views.shippers, name='shippers'),
     path('products/', views.products, name='products'),
+    path('login/', views.login, name='login'),
 ]

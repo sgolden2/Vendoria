@@ -1,20 +1,11 @@
-{% load static %}
+{% extends "main/header.html" %}
 
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% block content %}
+<div>
 
-</body>
-</html>-->
-
-this is test text for the manufacturer's page
-    <div>
-        <p><strong>Manufacturers</strong></p>
-{% for manu in manus %}
-    <p>{{ manu.name }}</p>
-{% endfor %}
-    </div>
+    <p><strong>Manufacturers</strong></p>
+    {% for manu in manus %}
+        <p>{{ manu.name }}</p>
+    {% endfor %}
+</div>
+{% endblock %}

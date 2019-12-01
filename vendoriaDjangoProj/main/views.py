@@ -26,3 +26,13 @@ def products(request):
     return render(request,
                   'main/products.html',
                   context={"prods": Product.objects.all})
+
+
+def login(request):
+    return render(request,
+                  'main/login.html')
+
+
+def header(request):
+    return render(request,
+                  'main/header.html')
