@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>Vendoria</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="{% static 'main/materialize/css/materialize.min.css' %}"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'main/style.css' %}">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+</head>
+<body>
+
+    <header>
+        <nav class="amber">
+            <div class="nav-wrapper container">
+                <a href="#" class="brand-logo black-text">Vendoria</a href="#">
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="{% url 'main:login' %}" class="black-text">Login</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="{% static 'main/materialize/js/materialize.min.js' %}"></script>
+
+    <footer class="page-footer amber">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="black-text">About</h5>
+                    <p class="grey-text text-darken-3">Vendoria is software created by a group of students at
+                                                        the Illinois Institute of Technology for CS 425: Database
+                                                        Organization. It is meant to be able to service multiple kinds
+                                                        of users interacting with the same database.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="black-text">Authors</h5>
+                    <ul>
+                        <li><p class="grey-text text-darken-3" >Sam Golden</p></li>
+                        <li><p class="grey-text text-darken-3" >Safa Slote</p></li>
+                        <li><p class="grey-text text-darken-3" >Hiranmayi Raju</p></li>
+                        <li><p class="grey-text text-darken-3" >Rafika Momin</p></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+<!-- COLOR PALETTE REFERENCE
+#fff8e1 amber lighten-5
+#ffecb3 amber lighten-4
+#ffe082 amber lighten-3
+#ffd54f amber lighten-2
+#ffca28 amber lighten-1
+#ffc107 amber
+#ffb300 amber darken-1
+#ffa000 amber darken-2
+#ff8f00 amber darken-3
+#ff6f00 amber darken-4
+#ffe57f amber accent-1
+#ffd740 amber accent-2
+#ffc400 amber accent-3
+#ffab00 amber accent-4
+-->

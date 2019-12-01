@@ -47,7 +47,7 @@ class Product(models.Model):
     category = models.CharField(max_length=30)
 
     def __str__(self):
-        return str(self.brand) + ' ' + str(self.model)
+        return str(self.model)
 
 
 class Place(models.Model):
