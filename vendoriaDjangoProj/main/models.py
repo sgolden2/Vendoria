@@ -130,13 +130,6 @@ class Inventory(models.Model):
 
 # WEAK ENTITIES
 
-class Cart(models.Model):
-    purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.product + 'IS MEMBER OF ' + self.purchase
-
 
 class Contract(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

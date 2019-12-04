@@ -23,14 +23,16 @@ admin.site.register(User, CustomUserAdmin)
 
 models_to_register = (
     Customer,
+    Marketer,
+    Manufacturer,
+    InventoryWorker,
+    Manager,
     Shipper,
     Region,
-    Manufacturer,
     Product,
     Place,
     Purchase,
     Inventory,
-    Cart,
     Contract,
     Saved_Card,
     Ships_To,
