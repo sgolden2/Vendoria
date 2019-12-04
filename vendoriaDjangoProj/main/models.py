@@ -1,39 +1,51 @@
 from django.db import models
 from datetime import date
-
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
-# STRONG ENTITIES
+
+class User(AbstractUser):
+    is_customer = models.BooleanField(default=False)
+    is_marketer = models.BooleanField(default=False)
+    is_shipper = models.BooleanField(default=False)
+    is_manufacturer = models.BooleanField(default=False)
+    is_inventory_worker = models.BooleanField(default=False)
+    is_manager = models.BooleanField(default=False)
+
+# USER TYPES
 
 
 class Customer(models.Model):
-    fname = models.CharField(max_length=30)
-    MI = models.CharField(max_length=1)
-    lname = models.CharField(max_length=30)
-    email = models.CharField(max_length=30)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     DOB = models.DateField()
     address = models.CharField(max_length=35)
 
-    def __str__(self):
-        return str(self.fname) + ' ' + str(self.MI) + ' ' + str(self.lname)
+
+class Marketer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
 
 class Shipper(models.Model):
-    name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return str(self.name)
-
-
-class Region(models.Model):
-    name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return str(self.name)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
 
 class Manufacturer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
+
+class InventoryWorker(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
+
+class Manager(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
+
+# NON-USER STRONG ENTITIES
+
+
+class Region(models.Model):
     name = models.CharField(max_length=30)
 
     def __str__(self):

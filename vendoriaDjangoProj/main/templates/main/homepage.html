@@ -5,4 +5,22 @@
     {% if user.is_authenticated %}
         <p>Welcome back, {{user.username}}</p>
     {% endif %}
+    {% if user.is_customer %}
+        <p>you have customer permissions</p>
+    {% endif %}
+    {% if user.is_marketer %}
+        <p>you have marketer permissions</p>
+    {% endif %}
+    {% if user.is_manufacturer %}
+        <p>you have manufacturer permissions</p>
+    {% endif %}
+    {% if user.is_inventory_worker %}
+        <p>you have inventory worker permissions</p>
+    {% endif %}
+    {% if user.is_shipper %}
+        <p>you have shipper permissions</p>
+    {% endif %}
+    {% if user.is_manager %}
+        <p>you have manager permissions</p>
+    {% endif %}
 {% endblock %}
