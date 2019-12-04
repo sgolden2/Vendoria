@@ -18,9 +18,27 @@
     <header>
         <nav class="amber">
             <div class="nav-wrapper container">
-                <a href="#" class="brand-logo black-text">Vendoria</a href="#">
-                <ul id="nav-mobile" class="right hide-on-sm">
+                <a href="#" class="brand-logo black-text hide-on-med-and-down">Vendoria</a href="#">
+                <ul id="nav-mobile" class="right">
                     {% if user.is_authenticated %}
+                        {% if user.is_customer %}
+                            <li><a href="{% url 'main:customer_page' %}" class="black-text">Products</a></li>
+                        {% endif %}
+                        {% if user.is_marketer %}
+                            <li><a href="{% url 'main:marketer_page' %}" class="black-text">Data Center</a></li>
+                        {% endif %}
+                        {% if user.is_manufacturer %}
+                            <li><a href="{% url 'main:manufacturer_page' %}" class="black-text">Manufacturer Center</a></li>
+                        {% endif %}
+                        {% if user.is_inventory_worker %}
+                            <li><a href="{% url 'main:inventory_page' %}" class="black-text">Your Inventory</a></li>
+                        {% endif %}
+                        {% if user.is_shipper %}
+                            <li><a href="{% url 'main:shipper_page' %}" class="black-text">Shipper Center</a></li>
+                        {% endif %}
+                        {% if user.is_manager %}
+                            <li><a href="{% url 'main:manager_page' %}" class="black-text">Manager Console</a></li>
+                        {% endif %}
                         <li><a href="{% url 'main:logout' %}" class="black-text">Logout</a></li>
                     {% else %}
                         <li><a href="{% url 'main:login' %}" class="black-text">Login</a></li>

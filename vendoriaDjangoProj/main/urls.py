@@ -21,10 +21,14 @@ app_name = "main"
 urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('header/', views.header, name='header'),
-    path('manufacturers/', views.manufacturers, name='manufacturers'),
-    path('shippers/', views.shippers, name='shippers'),
-    path('products/', views.products, name='products'),
     path('login/', views.login_page, name='login'),
     path('register/', views.register, name='register'),
     path('logout/', views.logout_page, name='logout'),
+
+    path('products/', views.customer_page, name='customer_page'),
+    path('data-center/', views.marketer_page, name='marketer_page'),
+    path('manufacturer-center/', views.manufacturer_page, name='manufacturer_page'),
+    path('inventory/', views.inventory_page, name='inventory_page'),
+    path('shipper-center/', views.shipper_page, name='shipper_page'),
+    path('manager-console/', views.manager_page, name='manager_page'),
 ]
