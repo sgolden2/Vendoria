@@ -1,12 +1,6 @@
-
 {% extends "main/header.html" %}
 
 {% block content %}
-    <h1>Products</h1>
-    {% for prod in prods %}
-        <div>
-            <p><strong>{{prod.id}}</strong>:{{prod.model}} sells for {{prod.price}}</p>
-            <p>made by {{prod.manufacturer}}</p>
-        </div>
-    {% endfor %}
+    <h1>Customer Page</h1>
+
 {% endblock %}
