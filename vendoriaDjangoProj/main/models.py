@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import date
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -21,25 +23,43 @@ class Customer(models.Model):
     DOB = models.DateField()
     address = models.CharField(max_length=35)
 
+    def __str__(self):
+        return 'CUST ' + str(self.user.username)
+
 
 class Marketer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
+    def __str__(self):
+        return 'MARK ' + str(self.user.username)
 
 
 class Shipper(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
+    def __str__(self):
+        return 'SHIP ' + str(self.user.username)
+
 
 class Manufacturer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
+    def __str__(self):
+        return 'MANU ' + str(self.user.username)
 
 
 class InventoryWorker(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
+    def __str__(self):
+        return 'INVN ' + str(self.user.username)
+
 
 class Manager(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
+    def __str__(self):
+        return 'MNGR ' + str(self.user.username)
 
 
 # NON-USER STRONG ENTITIES
@@ -101,7 +121,7 @@ class Purchase(models.Model):
                                       default=CARD)
 
     def __str__(self):
-        return str(self.customer) + ' | ' + str(self.amount) + ' | ' + str(self.DOT)
+        return str(self.customer) + ' | $' + str(self.amount) + ' | ' + str(self.DOT)
 
 
 class Inventory(models.Model):
@@ -212,3 +232,13 @@ class Makes(models.Model):
 
     def __str__(self):
         return str(self.manufacturer) + ' makes ' + str(self.product)
+
+
+# SIGNALS
+
+# this func gets called every time a new record shows up in the Purchase table
+@receiver(post_save, sender=Purchase)
+def purchase_made(sender, instance, **kwargs):
+    print(sender)  # table its coming from
+    print(instance)  # specific object saved
+

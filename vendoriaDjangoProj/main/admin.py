@@ -7,7 +7,7 @@ from .models import *
 
 
 class CustomUserAdmin(UserAdmin):
-    fieldsets = fieldsets = (
+    fieldsets = (
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),
         ('Permissions', {
