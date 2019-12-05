@@ -1,6 +1,39 @@
 {% extends "main/header.html" %}
 
 {% block content %}
-    <h1>Inventory Page</h1>
-    
+    <h1 style="font-family:Comic Sans MS;">Inventory Page</h1>
+ <nav>
+    <div class="nav-wrapper">
+      <form method="POST">
+          {% csrf_token %}
+        <div class="input-field">
+          <input id="search" type="search" required>
+          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+          <i class="material-icons">close</i>
+        </div>
+      </form>
+    </div>
+  </nav>
+
+<div class="card-panel teal lighten-2">
+     <table>
+        <thead>
+          <tr>
+              <th>Location</th>
+              <th>Product</th>
+              <th>Quantity</th>
+
+          </tr>
+        </thead>
+        <tbody>
+        {%for inv in inventory%}
+          <tr>
+              <td>{{inv.place}}</td>
+            <td>{{inv.product.model}}</td>
+            <td>{{inv.quantity}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+     </div>
 {% endblock %}

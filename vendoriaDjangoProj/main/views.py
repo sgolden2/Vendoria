@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Manufacturer, Shipper, Product, Reorder
+from .models import Manufacturer, Shipper, Product, Reorder, Inventory
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 
@@ -96,8 +96,18 @@ def manufacturer_page(request):
 
 
 def inventory_page(request):
+    if request.method == "POST":
+        search = request.POST.get('search')
+        q1 = Inventory.objects.filter(status__contains=f'%{search}%')
+        q2 = Inventory.objects.filter(place__name__contains=f'%{search}%')
+        q3 = Inventory.objects.filter(product__model__contains=f'%{search}%')
+        q = q1 | q2 | q3
+        inventory = q
+    else:
+        inventory = Inventory.objects.all()
     return render(request,
-                  'main/userpages/inventory_page.html')
+                  'main/userpages/inventory_page.html',
+                   context={"inventory": inventory})
 
 
 def shipper_page(request):
