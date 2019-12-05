@@ -23,6 +23,12 @@ urlpatterns = [
     path('header/', views.header, name='header'),
     path('login/', views.login_page, name='login'),
     path('register/', views.register, name='register'),
+    path('register/customer/', views.CustomerRegistrationView.as_view(), name='customer_registration'),
+    path('register/marketer/', views.MarketerRegistrationView.as_view(), name='marketer_registration'),
+    path('register/manufacturer/', views.ManufacturerRegistrationView.as_view(), name='manufacturer_registration'),
+    path('register/inventory/', views.InventoryRegistrationView.as_view(), name='inventory_registration'),
+    path('register/shipper/', views.ShipperRegistrationView.as_view(), name='shipper_registration'),
+    path('register/manager/', views.ManagerRegistrationView.as_view(), name='manager_registration'),
     path('logout/', views.logout_page, name='logout'),
 
     path('products/', views.customer_page, name='customer_page'),
