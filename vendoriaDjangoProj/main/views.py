@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Manufacturer, Shipper, Product
+from .models import *
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 
@@ -78,8 +78,13 @@ def header(request):
 
 
 def customer_page(request):
+    customer = Customer.objects.get(user=request.user)
     return render(request,
-                  'main/userpages/customer_page.html')
+                  'main/userpages/customer_page.html',
+                  context={'products': Product.objects.all(),
+                           'customer': customer,
+                           'purchases': Purchase.objects.filter(customer=customer),
+                           })
 
 
 def marketer_page(request):
