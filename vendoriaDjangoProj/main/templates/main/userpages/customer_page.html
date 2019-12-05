@@ -24,7 +24,28 @@
               <div class="col s8">
                 <h6><strong>Item: </strong>{{product.model}}</h6>
                 <h6><strong>Shipping to: </strong>{{customer.address}}</h6>
-                <h6><strong>Payment Method: </strong>SAVED CARD</h6>
+                <h6><strong>Payment Method: </strong></h6>
+                <div class="input-field col s12">  <!-- PAYMENT METHOD SELECTION -->
+                  <select name="payment_method" id="payment_method" form="purchase{{product.id}}">
+                      <option value="" class="selected">Select a payment method</option>
+                      {% if has_contract %}
+                        <option value="contract">{{customer.user.username}} - CONTRACT</option>
+                      {% endif %}
+                    {% if saved_cards %}
+                    <optgroup label="Saved Cards">
+                      {% for saved_card in saved_cards %}
+                        <option value="{{saved_card.id}}">{{saved_card.card_number}}</option>
+                      {% endfor %}
+                    </optgroup>
+                    {% endif %}
+                  </select>
+                </div>
+                {% if not has_contract %}
+                  <a href="{% url 'main:contracts' %}"><p>Interested in starting a contract with us?</p></a>
+                {% endif %}
+                {% if not saved_cards %}
+                  <a href="{% url 'main:cards' %}"><p>Save a new credit card with us here.</p></a>
+                {% endif %}
               </div>
               <div class="col s4 offset-s8">
                 <h3>Total: ${{product.price}}</h3>
@@ -47,6 +68,10 @@
           var elems = document.querySelectorAll('.modal');
           var instances = M.Modal.init(elems);
         });
+        document.addEventListener('DOMContentLoaded', function() {
+          var elem = document.getElementById('payment_method');
+          var instances = M.FormSelect.init(elem);
+        });
       </script>
 
     </div>
@@ -58,7 +83,8 @@
         <li class="collection-item amber lighten-4 truncate"><strong>Address:</strong> {{customer.address}}</li>
       </ul>
       <h5>Your Recent Purchases</h5>      <!-- RECENT PURCHASES -->
-      <table class="striped ">
+      <div>
+      <table class="striped responsive-table">
         <thead>
           <tr class="">
               <th>Date</th>
@@ -79,6 +105,7 @@
           {% endfor %}
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 {% endblock %}

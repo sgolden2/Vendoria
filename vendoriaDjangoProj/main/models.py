@@ -157,13 +157,9 @@ class Contract(models.Model):
     curr_total = models.DecimalField(default=0.0, max_digits=10, decimal_places=2)
 
 
-
 class Saved_Card(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    card_number = models.CharField(max_length=20),
-
-    def __str__(self):
-        return self.customer + ' | ' + self.card_number
+    card_number = models.CharField(max_length=30)
 
 
 class Ships_To(models.Model):

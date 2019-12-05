@@ -83,38 +83,73 @@ def header(request):
 
 
 def customer_page(request):
-    if request.method == "POST":
-        customer = Customer.objects.get(user=request.user)
-        product_id = int(request.POST.get('prod_id'))
-        product = Product.objects.get(pk=product_id)
-        place = Place.objects.get(type=Place.WAREHOUSE, region=customer.region)
-        inventory = Inventory.objects.get(product=product, place=place)
-        if inventory.quantity > 0:
-            purchase = Purchase(customer=customer,
-                                product=product,
-                                place=place)
-            purchase.save()
-            messages.success(request, f"Your order of {product} has been placed!")
-        else:
-            messages.error(request, f"Your order could not be completed, {product} is out of stock in your region.")
-        return render(request,
-                      'main/userpages/customer_page.html',
-                      context={'products': Product.objects.all(),
-                               'customer': customer,
-                               'purchases': Purchase.objects.filter(customer=customer).order_by('-DOT'),
-                               })
-    else:
-        if request.user.is_authenticated:
-            if request.user.is_customer:
-                customer = Customer.objects.get(user=request.user)
-                return render(request,
-                              'main/userpages/customer_page.html',
-                              context={'products': Product.objects.all(),
-                                       'customer': customer,
-                                       'purchases': Purchase.objects.filter(customer=customer).order_by('-DOT'),
-                                       })
+    if not request.user.is_authenticated or not request.user.is_customer:
         messages.error(request, "You do not have customer permissions!")
         return redirect("main:homepage")
+
+    customer = Customer.objects.get(user=request.user)
+
+    if request.method == "POST":
+        product_id = int(request.POST.get('prod_id'))
+        payment_method = request.POST.get('payment_method')
+        if not payment_method:
+            messages.error(request, "Your order could not be completed because you did not select a payment method.")
+        else:
+            product = Product.objects.get(pk=product_id)
+            place = Place.objects.get(type=Place.WAREHOUSE, region=customer.region)
+            inventory = Inventory.objects.get(product=product, place=place)
+            if inventory.quantity > 0:
+                purchase = Purchase(customer=customer,
+                                    product=product,
+                                    place=place)
+                purchase.save()
+                messages.success(request, f"Your order of {product} has been placed!")
+            else:
+                messages.error(request, f"Your order could not be completed, {product} is out of stock in your region.")
+
+    customer_contract = Contract.objects.filter(customer=customer)
+    saved_cards = Saved_Card.objects.filter(customer=customer)
+    return render(request,
+                  'main/userpages/customer_page.html',
+                  context={'products': Product.objects.all(),
+                           'customer': customer,
+                           'purchases': Purchase.objects.filter(customer=customer).order_by('-DOT')[0:5],
+                           'has_contract': bool(customer_contract),
+                           'saved_cards': saved_cards,
+                           })
+
+
+def contracts(request):
+    if not request.user.is_authenticated or not request.user.is_customer:
+        messages.error(request, "You do not have customer permissions!")
+        return redirect("main:homepage")
+
+    customer = Customer.objects.get(user=request.user)
+    customer_contract = Contract.objects.filter(customer=customer)
+    has_contract = bool(customer_contract)
+    return render(request,
+                  'main/contracts.html',
+                  context={'has_contract': has_contract})
+
+
+def cards(request):
+    if not request.user.is_authenticated or not request.user.is_customer:
+        messages.error(request, "You do not have customer permissions!")
+        return redirect("main:homepage")
+
+    customer = Customer.objects.get(user=request.user)
+
+    if request.method == "POST":
+        print(request.POST)
+        card_num = request.POST.get('card_num')
+        new_card = Saved_Card(customer=customer, card_number=card_num)
+        new_card.save()
+
+    saved_cards = Saved_Card.objects.all()
+    return render(request,
+                  'main/cards.html',
+                  context={'saved_cards': saved_cards})
+
 
 def marketer_page(request):
     if request.user.is_authenticated:

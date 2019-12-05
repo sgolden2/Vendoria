@@ -37,4 +37,7 @@ urlpatterns = [
     path('inventory/', views.inventory_page, name='inventory_page'),
     path('shipper-center/', views.shipper_page, name='shipper_page'),
     path('manager-console/', views.manager_page, name='manager_page'),
+
+    path('contracts/', views.contracts, name='contracts'),
+    path('cards/', views.cards, name='cards'),
 ]
