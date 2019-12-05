@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import *
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-
+from django.views.generic import CreateView 
+from .models import *
+from .forms import CustomerRegistrationForm, InventoryRegistrationForm, ManufacturerRegistrationForm, \
+    MarketerRegistrationForm, ManagerRegistrationForm, ShipperRegistrationForm
 
 # Create your views here.
 
@@ -35,28 +36,33 @@ def login_page(request):
                   context={'form': form})
 
 
+#def register(request):
+#    if request.method == "POST":
+#        form = UserCreationForm(request.POST)
+#        if form.is_valid():
+#            user = form.save()
+#            username = form.cleaned_data.get('username')
+#            messages.success(request, f"account created successfully: {username}")
+#            login(request, user)
+#            return redirect("main:homepage")
+#        else:
+#            for msg in form.error_messages:
+#                messages.error(request, f"{msg}: {form.error_messages[msg]}")
+#
+#            return render(request=request,
+#                          template_name="main/register.html",
+#                          context={"form": form})
+#
+#    form = UserCreationForm
+#    return render(request,
+#                  'main/register.html',
+#                  context={"form": form}
+#                  )
+
 def register(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f"account created successfully: {username}")
-            login(request, user)
-            return redirect("main:homepage")
-        else:
-            for msg in form.error_messages:
-                messages.error(request, f"{msg}: {form.error_messages[msg]}")
-
-            return render(request=request,
-                          template_name="main/register.html",
-                          context={"form": form})
-
-    form = UserCreationForm
     return render(request,
-                  'main/register.html',
-                  context={"form": form}
-                  )
+                  "main/register.html")
+
 
 
 def logout_page(request):
@@ -110,3 +116,70 @@ def shipper_page(request):
 def manager_page(request):
     return render(request,
                   'main/userpages/manager_page.html')
+
+
+class CustomerRegistrationView(CreateView):
+    model = User
+    form_class = CustomerRegistrationForm
+    template_name = 'main/user_register.html'
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('main:homepage')
+
+
+class MarketerRegistrationView(CreateView):
+    model = User
+    form_class = MarketerRegistrationForm
+    template_name = 'main/user_register.html'
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('main:homepage')
+
+
+class ManufacturerRegistrationView(CreateView):
+    model = User
+    form_class = ManufacturerRegistrationForm
+    template_name = 'main/user_register.html'
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('main:homepage')
+
+
+class InventoryRegistrationView(CreateView):
+    model = User
+    form_class = InventoryRegistrationForm
+    template_name = 'main/user_register.html'
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('main:homepage')
+
+
+class ShipperRegistrationView(CreateView):
+    model = User
+    form_class = ShipperRegistrationForm
+    template_name = 'main/user_register.html'
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('main:homepage')
+
+
+class ManagerRegistrationView(CreateView):
+    model = User
+    form_class = ManagerRegistrationForm
+    template_name = 'main/user_register.html'
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('main:homepage')
+
