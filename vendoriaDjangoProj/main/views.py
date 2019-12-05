@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.forms import Form
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from django.views.generic import CreateView 
+from django.views.generic import CreateView
 from .models import *
 from .forms import CustomerRegistrationForm, InventoryRegistrationForm, ManufacturerRegistrationForm, \
     MarketerRegistrationForm, ManagerRegistrationForm, ShipperRegistrationForm
@@ -64,7 +65,6 @@ def register(request):
                   "main/register.html")
 
 
-
 def logout_page(request):
     if request.user.is_authenticated:
         logout(request)
@@ -83,50 +83,82 @@ def header(request):
 
 
 def customer_page(request):
-    customer = Customer.objects.get(user=request.user)
-    return render(request,
-                  'main/userpages/customer_page.html',
-                  context={'products': Product.objects.all(),
-                           'customer': customer,
-                           'purchases': Purchase.objects.filter(customer=customer),
-                           })
+    if request.method == "POST":
+        customer = Customer.objects.get(user=request.user)
+        product_id = int(request.POST.get('prod_id'))
+        product = Product.objects.get(pk=product_id)
+        place = Place.objects.get(type=Place.WAREHOUSE, region=customer.region)
+        inventory = Inventory.objects.get(product=product, place=place)
+        if inventory.quantity > 0:
+            purchase = Purchase(customer=customer,
+                                product=product,
+                                place=place)
+            purchase.save()
+            messages.success(request, f"Your order of {product} has been placed!")
+        else:
+            messages.error(request, f"Your order could not be completed, {product} is out of stock in your region.")
+        return render(request,
+                      'main/userpages/customer_page.html',
+                      context={'products': Product.objects.all(),
+                               'customer': customer,
+                               'purchases': Purchase.objects.filter(customer=customer).order_by('-DOT'),
+                               })
+    else:
+        if request.user.is_authenticated:
+            if request.user.is_customer:
+                customer = Customer.objects.get(user=request.user)
+                return render(request,
+                              'main/userpages/customer_page.html',
+                              context={'products': Product.objects.all(),
+                                       'customer': customer,
+                                       'purchases': Purchase.objects.filter(customer=customer).order_by('-DOT'),
+                                       })
+        messages.error(request, "You do not have customer permissions!")
+        return redirect("main:homepage")
 
 def marketer_page(request):
-    return render(request,
-                  'main/userpages/marketer_page.html')
+    if request.user.is_authenticated:
+        if request.user.is_marketer:
+            return render(request,
+                          'main/userpages/marketer_page.html')
+    messages.error(request, "You do not have marketer permissions!")
+    return redirect("main:homepage")
 
 
 def manufacturer_page(request):
-    products = Product.objects.all()
-    reorders = Reorder.objects.filter(inventory__product__manufacturer__user=request.user)
-    return render(request,
-                  'main/userpages/manufacturer_page.html',
-                  context={"reorders": reorders})
+    if request.user.is_authenticated:
+        if request.user.is_manufacturer:
+            return render(request,
+                          'main/userpages/manufacturer_page.html')
+    messages.error(request, "You do not have manufacturer permissions!")
+    return redirect("main:homepage")
 
 
 def inventory_page(request):
-    if request.method == "POST":
-        search = request.POST.get('search')
-        q1 = Inventory.objects.filter(status__contains=f'%{search}%')
-        q2 = Inventory.objects.filter(place__name__contains=f'%{search}%')
-        q3 = Inventory.objects.filter(product__model__contains=f'%{search}%')
-        q = q1 | q2 | q3
-        inventory = q
-    else:
-        inventory = Inventory.objects.all()
-    return render(request,
-                  'main/userpages/inventory_page.html',
-                   context={"inventory": inventory})
+    if request.user.is_authenticated:
+        if request.user.is_inventory_worker:
+            return render(request,
+                          'main/userpages/inventory_page.html')
+    messages.error(request, "You do not have inventory permissions!")
+    return redirect("main:homepage")
 
 
 def shipper_page(request):
-    return render(request,
-                  'main/userpages/shipper_page.html')
+    if request.user.is_authenticated:
+        if request.user.is_shipper:
+            return render(request,
+                          'main/userpages/shipper_page.html')
+    messages.error(request, "You do not have shipper permissions!")
+    return redirect("main:homepage")
 
 
 def manager_page(request):
-    return render(request,
-                  'main/userpages/manager_page.html')
+    if request.user.is_authenticated:
+        if request.user.is_manager:
+            return render(request,
+                          'main/userpages/manager_page.html')
+    messages.error(request, "You do not have manager permissions!")
+    return redirect("main:homepage")
 
 
 class CustomerRegistrationView(CreateView):
