@@ -69,8 +69,8 @@
           var instances = M.Modal.init(elems);
         });
         document.addEventListener('DOMContentLoaded', function() {
-          var elem = document.getElementById('payment_method');
-          var instances = M.FormSelect.init(elem);
+          var elems = document.querySelectorAll('select');
+          var instances = M.FormSelect.init(elems);
         });
       </script>
 
