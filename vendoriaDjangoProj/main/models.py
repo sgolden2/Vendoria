@@ -112,16 +112,15 @@ class Purchase(models.Model):
     ]
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     DOT = models.DateTimeField()
-    amount = models.DecimalField(default=0.0, max_digits=10, decimal_places=2)
-    item_count = models.IntegerField()
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     payment_method = models.CharField(max_length=4,
                                       choices=PAYMENT_TYPES,
                                       default=CARD)
 
     def __str__(self):
-        return str(self.customer) + ' | $' + str(self.amount) + ' | ' + str(self.DOT)
+        return str(self.customer) + ' PURCHASED ' + str(self.product) + ' | $' + str(self.product.price) + ' | ' + str(self.DOT)
 
 
 class Inventory(models.Model):
