@@ -14,6 +14,12 @@
                         {{ field.label_tag }} {{ field }}
                     </div>
                 {% endfor %}
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var elems = document.querySelectorAll('select');
+                        var instances = M.FormSelect.init(elems);
+                    });
+                </script>
                 <a href="{%url 'main:login' %}" target="blank" class="orange-text">
                     <strong> Or login!</strong>
                 </a>

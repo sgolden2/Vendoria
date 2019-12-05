@@ -1,12 +1,14 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
-from django.forms import DateField, DateInput, CharField
-from .models import User, Customer, InventoryWorker, Manager, Manufacturer, Marketer, Shipper
+from django.forms import DateField, DateInput, CharField, ModelChoiceField, Select
+from .models import User, Customer, InventoryWorker, Manager, Manufacturer, Marketer, Shipper, Region
 
 
 class CustomerRegistrationForm(UserCreationForm):
     dob = DateField(required=True, widget=DateInput(attrs={'placeholder': 'MM/DD/YYYY', 'required': 'required'}))
     address = CharField(max_length=35, strip=True)
+    regions = Region.objects.all()
+    region = ModelChoiceField(queryset=regions)
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -18,8 +20,9 @@ class CustomerRegistrationForm(UserCreationForm):
         user.is_customer = True
         user.save()
         dob = self.cleaned_data.get('dob')
-        address=self.cleaned_data.get('address')
-        Customer.objects.create(user=user, DOB=dob, address=address)
+        address = self.cleaned_data.get('address')
+        region = self.cleaned_data.get('region')
+        Customer.objects.create(user=user, DOB=dob, address=address, region=region)
         return user
 
 

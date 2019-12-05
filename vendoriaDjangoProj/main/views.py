@@ -146,7 +146,7 @@ def cards(request):
         new_card = Saved_Card(customer=customer, card_number=card_num)
         new_card.save()
 
-    saved_cards = Saved_Card.objects.all()
+    saved_cards = Saved_Card.objects.filter(customer=customer)
     return render(request,
                   'main/cards.html',
                   context={'saved_cards': saved_cards})
