@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import date
+from datetime import date, datetime
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -16,15 +16,6 @@ class User(AbstractUser):
     is_manager = models.BooleanField(default=False)
 
 # USER TYPES
-
-
-class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    DOB = models.DateField()
-    address = models.CharField(max_length=35)
-
-    def __str__(self):
-        return 'CUST ' + str(self.user.username)
 
 
 class Marketer(models.Model):
@@ -72,6 +63,16 @@ class Region(models.Model):
         return str(self.name)
 
 
+class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    DOB = models.DateField()
+    address = models.CharField(max_length=35)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'CUST ' + str(self.user.username)
+
+
 class Product(models.Model):
     model = models.CharField(max_length=20)
     price = models.DecimalField(default=0.0, max_digits=10, decimal_places=2)
@@ -113,7 +114,7 @@ class Purchase(models.Model):
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    DOT = models.DateTimeField()
+    DOT = models.DateTimeField(default=datetime.now())
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     payment_method = models.CharField(max_length=4,
                                       choices=PAYMENT_TYPES,
@@ -135,10 +136,10 @@ class Inventory(models.Model):
 
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    reorder_threshold = models.IntegerField()
-    reorder_amount = models.IntegerField()
-    max_amount = models.IntegerField()
+    quantity = models.IntegerField(default=0)
+    reorder_threshold = models.IntegerField(default=0)
+    reorder_amount = models.IntegerField(default=0)
+    max_amount = models.IntegerField(default=100)
     status = models.CharField(max_length=4,
                               choices=INVEN_STATUS,
                               default=OK)
@@ -155,8 +156,6 @@ class Contract(models.Model):
     startdate = models.DateField(default=date.today)
     curr_total = models.DecimalField(default=0.0, max_digits=10, decimal_places=2)
 
-    def __str__(self):
-        return 'Customer: ' + self.customer + ' | Current Total: ' + self.curr_total + '| Account Created On: ' + self.startdate
 
 
 class Saved_Card(models.Model):
@@ -191,14 +190,6 @@ class Shipment(models.Model):
                               choices=SHIPMENT_STATUS,
                               default=PROCESSED)
 
-    def __str__(self):
-        if self.status == self.PROCESSED:
-            return 'SHIPPER ' + self.shipper + ' HAS PROCESSED ORDER ' + self.purchase
-        elif self.status == self.SHIPPED:
-            return 'ORDER ' + self.purchase + 'IS ON THE WAY VIA ' + self.shipper
-        elif self.status == self.DELIVERED:
-            return 'SHIPPER ' + self.shipper + ' HAS DELIVERED ORDER ' + self.purchase
-
 
 class Reorder(models.Model):
     PROCESSED = 'PRC'
@@ -216,14 +207,6 @@ class Reorder(models.Model):
                               choices=REORDER_STATUS,
                               default=PROCESSED)
 
-    def __str__(self):
-        if self.status == self.PROCESSED:
-            return 'SHIPPER ' + self.shipper + ' HAS PROCESSED REORDER OF ' + self.inventory
-        elif self.status == self.SHIPPED:
-            return 'REORDER OF ' + self.inventory + 'IS ON THE WAY VIA ' + self.shipper
-        elif self.status == self.DELIVERED:
-            return 'SHIPPER ' + self.shipper + ' HAS DELIVERED REORDER OF ' + self.inventory
-
 
 class Makes(models.Model):
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
@@ -240,7 +223,7 @@ class Makes(models.Model):
 def purchase_made(sender, instance, **kwargs):
     inventory = Inventory.objects.get(place=instance.place, product=instance.product)
     inventory.quantity -= 1
-    if inventory.quantity <= inventory.reorder_threshold:
+    if inventory.quantity <= inventory.reorder_threshold and inventory.reorder_threshold > 0 and not Reorder.objects.filter(inventory=inventory):
         inventory.status = Inventory.LOW
         reorder = Reorder(shipper=inventory.place.shipper, inventory=inventory, status=Reorder.PROCESSED)
         reorder.save()
@@ -248,3 +231,18 @@ def purchase_made(sender, instance, **kwargs):
         inventory.status = Inventory.FULL
     inventory.save()
 
+
+@receiver(post_save, sender=Place)
+def create_inventories_on_new_place(sender, instance, **kwargs):
+    place = instance
+    for product in Product.objects.all():
+        inventory = Inventory(place=place, product=product)
+        inventory.save()
+
+
+@receiver(post_save, sender=Product)
+def create_inventories_on_new_product(sender, instance, **kwargs):
+    product = instance
+    for place in Place.objects.all():
+        inventory = Inventory(place=place, product=product)
+        inventory.save()
