@@ -1,12 +1,23 @@
 {% extends 'main/header.html' %}
 {% block content %}
     <h1><strong>Welcome to Vendoria</strong></h1>
+
     <p>This... is the homepage.</p>
     {% if user.is_authenticated %}
         <p>Welcome back, {{user.username}}</p>
     {% endif %}
     {% if user.is_customer %}
-        <p>you have customer permissions</p>
+        <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Permissions
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="#">Action</a>
+    <a class="dropdown-item" href="#">Another action</a>
+    <a class="dropdown-item" href="#">Something else here</a>
+  </div>
+</div>
+      <p>you have customer permissions</p>
     {% endif %}
     {% if user.is_marketer %}
         <p>you have marketer permissions</p>

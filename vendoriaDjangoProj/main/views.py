@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Manufacturer, Shipper, Product
+from .models import Manufacturer, Shipper, Product, Reorder
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 
@@ -67,20 +67,20 @@ def logout_page(request):
 
 
 def header(request):
+    products = Product.objects.all()
     return render(request,
-                  'main/header.html',
-                  context={
-                      "req": request
-                  })
+                  'main/customer_page.html'
+                  )
 
 
 # USER SPECIFIC PAGES
 
 
 def customer_page(request):
+    products = Product.objects.all()
     return render(request,
-                  'main/userpages/customer_page.html')
-
+                   'main/userpages/customer_page.html',
+                    context={"products": products})
 
 def marketer_page(request):
     return render(request,
@@ -88,8 +88,11 @@ def marketer_page(request):
 
 
 def manufacturer_page(request):
+    products = Product.objects.all()
+    reorders = Reorder.objects.filter(inventory__product__manufacturer__user=request.user)
     return render(request,
-                  'main/userpages/manufacturer_page.html')
+                  'main/userpages/manufacturer_page.html',
+                  context={"reorders": reorders})
 
 
 def inventory_page(request):

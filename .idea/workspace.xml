@@ -2,11 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e730e42-ffdf-450b-8323-dbb0042ee1b2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/products.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/repo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/repo.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/homepage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/customer_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/customer_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/manufacturer_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/manufacturer_page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/vendoriaDjangoProj/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/vendoriaDjangoProj/settings.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,6 +28,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1U55gbigyzMQ56Nna4h21hXk9gT" />
@@ -29,7 +40,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">

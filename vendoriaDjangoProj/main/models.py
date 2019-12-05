@@ -192,14 +192,6 @@ class Shipment(models.Model):
                               choices=SHIPMENT_STATUS,
                               default=PROCESSED)
 
-    def __str__(self):
-        if self.status == self.PROCESSED:
-            return 'SHIPPER ' + self.shipper + ' HAS PROCESSED ORDER ' + self.purchase
-        elif self.status == self.SHIPPED:
-            return 'ORDER ' + self.purchase + 'IS ON THE WAY VIA ' + self.shipper
-        elif self.status == self.DELIVERED:
-            return 'SHIPPER ' + self.shipper + ' HAS DELIVERED ORDER ' + self.purchase
-
 
 class Reorder(models.Model):
     PROCESSED = 'PRC'
@@ -217,13 +209,6 @@ class Reorder(models.Model):
                               choices=REORDER_STATUS,
                               default=PROCESSED)
 
-    def __str__(self):
-        if self.status == self.PROCESSED:
-            return 'SHIPPER ' + self.shipper + ' HAS PROCESSED REORDER OF ' + self.inventory
-        elif self.status == self.SHIPPED:
-            return 'REORDER OF ' + self.inventory + 'IS ON THE WAY VIA ' + self.shipper
-        elif self.status == self.DELIVERED:
-            return 'SHIPPER ' + self.shipper + ' HAS DELIVERED REORDER OF ' + self.inventory
 
 
 class Makes(models.Model):
