@@ -238,6 +238,13 @@ class Makes(models.Model):
 # this func gets called every time a new record shows up in the Purchase table
 @receiver(post_save, sender=Purchase)
 def purchase_made(sender, instance, **kwargs):
-    print(sender)  # table its coming from
-    print(instance)  # specific object saved
+    inventory = Inventory.objects.get(place=instance.place, product=instance.product)
+    inventory.quantity -= 1
+    if inventory.quantity <= inventory.reorder_threshold:
+        inventory.status = Inventory.LOW
+        reorder = Reorder(shipper=inventory.place.shipper, inventory=inventory, status=Reorder.PROCESSED)
+        reorder.save()
+    elif inventory.quantity >= inventory.max_amount:
+        inventory.status = Inventory.FULL
+    inventory.save()
 
