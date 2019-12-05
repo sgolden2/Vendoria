@@ -62,8 +62,12 @@ def login_page(request):
 #                  )
 
 def register(request):
-    return render(request,
-                  "main/register.html")
+    if not request.user.is_authenticated:
+        return render(request,
+                      "main/register.html")
+    else:
+        messages.error("Please logout before registering an account.")
+        return redirect("main:homepage")
 
 
 def logout_page(request):
@@ -130,11 +134,19 @@ def contracts(request):
         return redirect("main:homepage")
 
     customer = Customer.objects.get(user=request.user)
-    customer_contract = Contract.objects.filter(customer=customer)
+
+    if request.method == "POST":
+        pass
+
+    try:
+        customer_contract = Contract.objects.filter(customer=customer)
+    except ObjectDoesNotExist:
+        customer_contract = Contract.objects.none()
     has_contract = bool(customer_contract)
     return render(request,
                   'main/contracts.html',
-                  context={'has_contract': has_contract})
+                  context={'has_contract': has_contract,
+                           'contract': customer_contract})
 
 
 def cards(request):

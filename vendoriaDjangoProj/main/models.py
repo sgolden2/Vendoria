@@ -95,6 +95,7 @@ class Place(models.Model):
     type = models.CharField(max_length=4,
                             choices=PLACE_TYPES,
                             default=STORE)
+    address = models.CharField(max_length=35)
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
     shipper = models.ForeignKey(Shipper, on_delete=models.CASCADE)
 
@@ -114,7 +115,7 @@ class Purchase(models.Model):
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    DOT = models.DateTimeField(default=datetime.now())
+    DOT = models.DateTimeField(default=datetime.now)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     payment_method = models.CharField(max_length=4,
                                       choices=PAYMENT_TYPES,
@@ -225,6 +226,8 @@ def purchase_made(sender, instance, **kwargs):
         reorder.save()
     elif inventory.quantity >= inventory.max_amount:
         inventory.status = Inventory.FULL
+    else:
+        inventory.status = Inventory.OK
     inventory.save()
 
 

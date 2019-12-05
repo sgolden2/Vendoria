@@ -78,8 +78,8 @@
     <div class="col s12 m12 l4">
       <h4>Your Account</h4>               <!-- YOUR ACCOUNT -->
       <ul class="collection">
+        <li class="collection-item amber lighten-4 truncate"><strong>Account No:</strong> {{customer.user.id}}</li>
         <li class="collection-item amber lighten-4 truncate"><strong>Username:</strong> {{customer.user.username}}</li>
-        <li class="collection-item amber lighten-4 truncate"><strong>Full Name:</strong> {{customer.user.first_name}} {{customer.user.last_name}}</li>
         <li class="collection-item amber lighten-4 truncate"><strong>Address:</strong> {{customer.address}}</li>
         {% if has_contract %}
           <li class="collection-item amber lighten-4 truncate">
