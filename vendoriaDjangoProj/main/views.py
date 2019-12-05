@@ -4,6 +4,7 @@ from django.forms import Form
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.views.generic import CreateView
+from django.core.exceptions import ObjectDoesNotExist
 from .models import *
 from .forms import CustomerRegistrationForm, InventoryRegistrationForm, ManufacturerRegistrationForm, \
     MarketerRegistrationForm, ManagerRegistrationForm, ShipperRegistrationForm
@@ -107,7 +108,10 @@ def customer_page(request):
             else:
                 messages.error(request, f"Your order could not be completed, {product} is out of stock in your region.")
 
-    customer_contract = Contract.objects.filter(customer=customer)
+    try:
+        customer_contract = Contract.objects.filter(customer=customer)
+    except ObjectDoesNotExist:
+        customer_contract = Contract.objects.none()
     saved_cards = Saved_Card.objects.filter(customer=customer)
     return render(request,
                   'main/userpages/customer_page.html',
@@ -115,6 +119,7 @@ def customer_page(request):
                            'customer': customer,
                            'purchases': Purchase.objects.filter(customer=customer).order_by('-DOT')[0:5],
                            'has_contract': bool(customer_contract),
+                           'contract': customer_contract,
                            'saved_cards': saved_cards,
                            })
 
