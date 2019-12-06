@@ -2,12 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e730e42-ffdf-450b-8323-dbb0042ee1b2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/header.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/homepage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/VendoriaDB" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/VendoriaDB" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/migrations/0002_auto_20191205_0030.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/migrations/0002_place_address.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/migrations/0003_auto_20191205_0040.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/migrations/0004_auto_20191205_0327.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/migrations/0005_auto_20191205_0329.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/inventory_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/inventory_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/manager_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/manager_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/manufacturer_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/manufacturer_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/marketer_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/marketer_page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/shipper_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/templates/main/userpages/shipper_page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendoriaDjangoProj/main/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/vendoriaDjangoProj/main/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
