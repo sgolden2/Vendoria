@@ -272,7 +272,7 @@ def shipper_page(request):
     if request.user.is_authenticated:
         if request.user.is_shipper:
             ships = Shipment.objects.all()
-            print(ships)
+
             return render(request,
                           'main/userpages/shipper_page.html',
                            context={'ships': ships}
