@@ -82,11 +82,7 @@
         <li class="collection-item amber lighten-4 truncate"><strong>Username:</strong> {{customer.user.username}}</li>
         <li class="collection-item amber lighten-4 truncate"><strong>Address:</strong> {{customer.address}}</li>
         {% if has_contract %}
-          <li class="collection-item amber lighten-4 truncate">
-            <h5><strong>Your contract:</strong></h5>
-            <p>Billing monthly on: {{ contract.startdate }}</p>
-            <p>next </p>
-          </li>
+        <li class="collection-item amber lighten-4 truncate"><strong>Current contract total:</strong> {{contract.curr_total}}</li>
         {% endif %}
       </ul>
       <h5>Your Recent Purchases</h5>      <!-- RECENT PURCHASES -->

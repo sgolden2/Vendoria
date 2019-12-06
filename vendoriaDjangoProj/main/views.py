@@ -5,9 +5,13 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.views.generic import CreateView
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Sum, Count, Max, Min
+from collections import OrderedDict
+from .fusioncharts import FusionCharts
 from .models import *
 from .forms import CustomerRegistrationForm, InventoryRegistrationForm, ManufacturerRegistrationForm, \
     MarketerRegistrationForm, ManagerRegistrationForm, ShipperRegistrationForm
+
 
 # Create your views here.
 
@@ -86,6 +90,7 @@ def header(request):
 
 # USER SPECIFIC PAGES
 
+###  CUSTOMER THINGS  ###
 
 def customer_page(request):
     if not request.user.is_authenticated or not request.user.is_customer:
@@ -95,6 +100,7 @@ def customer_page(request):
     customer = Customer.objects.get(user=request.user)
 
     if request.method == "POST":
+        print(request.POST)
         product_id = int(request.POST.get('prod_id'))
         payment_method = request.POST.get('payment_method')
         if not payment_method:
@@ -107,13 +113,19 @@ def customer_page(request):
                 purchase = Purchase(customer=customer,
                                     product=product,
                                     place=place)
+                purchase.payment_method = Purchase.CARD
+                if payment_method == 'contract':
+                    contract = Contract.objects.get(customer=customer)
+                    contract.curr_total += purchase.product.price
+                    contract.save()
+                    purchase.payment_method = Purchase.CONTRACT
                 purchase.save()
                 messages.success(request, f"Your order of {product} has been placed!")
             else:
                 messages.error(request, f"Your order could not be completed, {product} is out of stock in your region.")
 
     try:
-        customer_contract = Contract.objects.filter(customer=customer)
+        customer_contract = Contract.objects.get(customer=customer)
     except ObjectDoesNotExist:
         customer_contract = Contract.objects.none()
     saved_cards = Saved_Card.objects.filter(customer=customer)
@@ -136,17 +148,19 @@ def contracts(request):
     customer = Customer.objects.get(user=request.user)
 
     if request.method == "POST":
-        pass
+        try:
+            _ = Contract.objects.get(customer=customer)
+        except ObjectDoesNotExist:
+            new_contract = Contract(customer=customer)
+            new_contract.save()
+            messages.success(request, 'You have successfully started a contract!')
+            return redirect('main:homepage')
+        messages.error(request, 'Contract creation unsuccessful, you already have a contract with us.')
 
-    try:
-        customer_contract = Contract.objects.filter(customer=customer)
-    except ObjectDoesNotExist:
-        customer_contract = Contract.objects.none()
-    has_contract = bool(customer_contract)
+    saved_cards = Saved_Card.objects.filter(customer=customer)
     return render(request,
                   'main/contracts.html',
-                  context={'has_contract': has_contract,
-                           'contract': customer_contract})
+                  context={'saved_cards': saved_cards})
 
 
 def cards(request):
@@ -157,7 +171,6 @@ def cards(request):
     customer = Customer.objects.get(user=request.user)
 
     if request.method == "POST":
-        print(request.POST)
         card_num = request.POST.get('card_num')
         new_card = Saved_Card(customer=customer, card_number=card_num)
         new_card.save()
@@ -168,13 +181,68 @@ def cards(request):
                   context={'saved_cards': saved_cards})
 
 
+###  MARKETER PAGE  ###
+
 def marketer_page(request):
-    if request.user.is_authenticated:
-        if request.user.is_marketer:
-            return render(request,
-                          'main/userpages/marketer_page.html')
-    messages.error(request, "You do not have marketer permissions!")
-    return redirect("main:homepage")
+    if not request.user.is_authenticated or not request.user.is_marketer:
+        messages.error(request, "You do not have marketer permissions!")
+        return redirect("main:homepage")
+
+    if not request.method == 'POST':
+        purchases = Purchase.objects.values('product__category')
+        purchases = purchases.annotate(Count('product__category'))
+        purchases = list(purchases)
+    else:
+        filters = request.POST
+        g = filters['grouping']
+        s = ''
+        if g == '1':
+            s = 'product__model'
+            purchases = Purchase.objects.values(s)
+            purchases = purchases.annotate(Count(s))
+        elif g == '2':
+            s = 'product__category'
+            purchases = Purchase.objects.values(s)
+            purchases = purchases.annotate(Count(s))
+        elif g =='3':
+            s = 'place__name'
+            purchases = Purchase.objects.values(s)
+            purchases = purchases.annotate(Count(s))
+        else:
+            s = 'place__region__name'
+            purchases = Purchase.objects.values(s)
+            purchases = purchases.annotate(Count(s))
+        purchases = purchases.filter(id__lte=int(filters['endid']))
+        purchases = purchases.filter(id__gte=int(filters['startid']))
+
+    dataSource = OrderedDict()
+    dataSource["data"] = []
+
+    for record in purchases:
+        dataSource["data"].append({"label": record[s], "value": record[s + '__count']})
+
+    chartConfig = OrderedDict()
+    chartConfig["caption"] = "Sales by Product Category"
+    chartConfig["subCaption"] = ""
+    chartConfig["xAxisName"] = "Category"
+    chartConfig["yAxisName"] = "Sales"
+    chartConfig["numberSuffix"] = ""
+    chartConfig["theme"] = "fusion"
+
+    dataSource["chart"] = chartConfig
+
+    max_purchase_id = Purchase.objects.aggregate(Max('id')).get('id__max')
+    min_purchase_id = Purchase.objects.aggregate(Min('id')).get('id__min')
+
+    column2D = FusionCharts("column2d", "the_chart", "600", "400", "the_chart-container", "json", dataSource)
+    return render(request, 'main/userpages/marketer_page.html',
+                  {'output': column2D.render(),
+                   'max_purchase_id': max_purchase_id,
+                   'min_purchase_id': min_purchase_id,
+                   })
+
+
+###  MANUFACTURER PAGE  ###
 
 
 def manufacturer_page(request):

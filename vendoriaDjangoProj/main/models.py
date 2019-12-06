@@ -213,7 +213,8 @@ class Makes(models.Model):
         return str(self.manufacturer) + ' makes ' + str(self.product)
 
 
-# SIGNALS
+###  SIGNALS  ###
+
 
 # this func gets called every time a new record shows up in the Purchase table
 @receiver(post_save, sender=Purchase)
