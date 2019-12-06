@@ -46,13 +46,6 @@ class InventoryWorker(models.Model):
         return 'INVN ' + str(self.user.username)
 
 
-class Manager(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-
-    def __str__(self):
-        return 'MNGR ' + str(self.user.username)
-
-
 # NON-USER STRONG ENTITIES
 
 
