@@ -1,0 +1,14 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+    <h3 class="center">What type of user will you be registering as?</h3>
+    <div class ='row'>
+        <div class="collection col s12 m8 offset-m2 l4 offset-l4 center">
+            <a href="{% url 'main:customer_registration' %}" class="collection-item amber-text text-darken-3"><h5>Customer</h5></a>
+            <a href="{% url 'main:marketer_registration' %}" class="collection-item amber-text text-darken-3"><h5>Marketer</h5></a>
+            <a href="{% url 'main:inventory_registration' %}" class="collection-item amber-text text-darken-3"><h5>Inventory</h5></a>
+            <a href="{% url 'main:manufacturer_registration' %}" class="collection-item amber-text text-darken-3"><h5>Manufacturer</h5></a>
+            <a href="{% url 'main:shipper_registration' %}" class="collection-item amber-text text-darken-3"><h5>Shipper</h5></a>
+        </div>
+    </div>
+{% endblock %}

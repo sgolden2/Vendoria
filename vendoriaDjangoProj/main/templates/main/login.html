@@ -1,0 +1,27 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="container">
+            <div class="container">
+                {% for field in form %}
+                    <div class="fieldWrapper">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <a href="{%url 'main:login' %}" target="blank" class="orange-text">
+                    <strong> Or login!</strong>
+                </a>
+                <div>
+                    <button class="btn waves-effect waves-light amber darken-2" type="submit" name="action">
+                        Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

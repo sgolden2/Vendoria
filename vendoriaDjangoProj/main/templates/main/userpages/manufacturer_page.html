@@ -1,0 +1,36 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+
+    <h1 style="font-family: monospace">Welcome, Manufacturer!</h1>
+    <table class = "centered red lighten-3 striped">
+        <thead>
+          <tr>
+              <th>Requested From</th>
+              <th>Product</th>
+              <th>Reorder Status</th>
+              <th>Quantity of Reorder</th>
+              <th>ReOrder Completed?</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for x in red %}
+          <tr>
+              <td>{{x.inventory.place}}</td>
+              <td>{{x.inventory.product.model}}</td>
+              <td>{{x.status}}</td>
+              <td>{{x.inventory.quantity}}</td>
+              <td><form action="#"><p>
+      <label>
+        <input type="checkbox" />
+        <span></span>
+      </label>
+    </p>
+                  </form>
+    <p></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+{% endblock %}

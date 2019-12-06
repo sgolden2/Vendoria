@@ -1,0 +1,36 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+
+<h1 style="font-family: monospace">Welcome, Shipper!</h1>
+    <table class = "centered red lighten-3 striped">
+        <thead>
+          <tr>
+              <th>Tracking Number</th>
+              <th>Ships To</th>
+              <th>Shipment Status</th>
+              <th>Shipment Completed?</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for x in ships %}
+          <tr>
+              <td>{{x.id}}</td>
+              <td>{{x.purchase.customer.address}}</td>
+              <td>{{x.status}}</td>
+              <td><form action="#">
+                  <p>
+      <label>
+        <input type="checkbox" />
+        <span></span>
+      </label>
+    </p>
+                  </form>
+    <p></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+{% endblock %}
+

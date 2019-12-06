@@ -1,0 +1,30 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+<h1 style="font-family: monospace">Inventory</h1>
+    <table class = "centered red lighten-3 striped">
+
+        <thead>
+          <tr>
+              <th>Location</th>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Reorder Amount</th>
+              <th>Reorder Threshold</th>
+
+          </tr>
+        </thead>
+        <tbody>
+        {%for inv in inventory%}
+          <tr>
+              <td>{{inv.place}}</td>
+            <td>{{inv.product.model}}</td>
+            <td>{{inv.quantity}}</td>
+              <td>{{inv.reorder_amount}}</td>
+              <td>{{inv.reorder_threshold}}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+     </div>
+{% endblock %}

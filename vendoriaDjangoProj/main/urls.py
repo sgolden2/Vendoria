@@ -20,4 +20,24 @@ app_name = "main"
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
+    path('header/', views.header, name='header'),
+    path('login/', views.login_page, name='login'),
+    path('register/', views.register, name='register'),
+    path('register/customer/', views.CustomerRegistrationView.as_view(), name='customer_registration'),
+    path('register/marketer/', views.MarketerRegistrationView.as_view(), name='marketer_registration'),
+    path('register/manufacturer/', views.ManufacturerRegistrationView.as_view(), name='manufacturer_registration'),
+    path('register/inventory/', views.InventoryRegistrationView.as_view(), name='inventory_registration'),
+    path('register/shipper/', views.ShipperRegistrationView.as_view(), name='shipper_registration'),
+
+    path('logout/', views.logout_page, name='logout'),
+
+    path('products/', views.customer_page, name='customer_page'),
+    path('data-center/', views.marketer_page, name='marketer_page'),
+    path('manufacturer-center/', views.manufacturer_page, name='manufacturer_page'),
+    path('inventory/', views.inventory_page, name='inventory_page'),
+    path('shipper-center/', views.shipper_page, name='shipper_page'),
+
+
+    path('contracts/', views.contracts, name='contracts'),
+    path('cards/', views.cards, name='cards'),
 ]

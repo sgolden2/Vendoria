@@ -1,0 +1,114 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+  <div class="row">
+    <div class="col s12 m12 l8">
+
+      {% for product in products %}      <!-- PRODUCTS -->
+      <div class="card amber lighten-3 col s12 m6 l4">
+        <div class="card-content black-text">
+          <span class="card-title truncate"><h4>{{ product.model }}</h4></span>
+          <p>{{ product.manufacturer.user.username }}</p>
+        </div>
+        <div class="card-action white-text amber darken-2">
+          <a href="#modal{{ product.id }}" class="white-text modal-trigger">Purchase now for <h5>${{ product.price }}</h5></a>
+        </div>
+      </div>
+      <!-- Modal Structure -->
+      <form id="purchase{{product.id}}" method="POST">
+        {% csrf_token %}
+        <div id="modal{{ product.id }}" class="modal">
+          <div class="modal-content">
+            <h3>Confirm Your Purchase</h3>
+            <div class="row">
+              <div class="col s8">
+                <h6><strong>Item: </strong>{{product.model}}</h6>
+                <h6><strong>Shipping to: </strong>{{customer.address}}</h6>
+                <h6><strong>Payment Method: </strong></h6>
+                <div class="input-field col s12">  <!-- PAYMENT METHOD SELECTION -->
+                  <select name="payment_method" id="payment_method" form="purchase{{product.id}}">
+                      <option value="" class="selected">Select a payment method</option>
+                      {% if has_contract %}
+                        <option value="contract">{{customer.user.username}} - CONTRACT</option>
+                      {% endif %}
+                    {% if saved_cards %}
+                    <optgroup label="Saved Cards">
+                      {% for saved_card in saved_cards %}
+                        <option value="{{saved_card.id}}">{{saved_card.card_number}}</option>
+                      {% endfor %}
+                    </optgroup>
+                    {% endif %}
+                  </select>
+                </div>
+                {% if not has_contract %}
+                  <a href="{% url 'main:contracts' %}"><p>Interested in starting a contract with us?</p></a>
+                {% endif %}
+                {% if not saved_cards %}
+                  <a href="{% url 'main:cards' %}"><p>Save a new credit card with us here.</p></a>
+                {% endif %}
+              </div>
+              <div class="col s4 offset-s8">
+                <h3>Total: ${{product.price}}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer amber lighten-2">
+            <input type="hidden" name="prod_id" value="{{product.id}}" />
+            <a href="javascript:{}" onclick="document.getElementById('purchase{{product.id}}').submit();"
+               class="modal-close waves-effect waves-green btn-flat amber lighten-2">
+              <h6><strong>Confirm and complete purchase</strong></h6>
+            </a>
+          </div>
+        </div>
+      </form>
+
+      {% endfor %}
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var elems = document.querySelectorAll('.modal');
+          var instances = M.Modal.init(elems);
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+          var elems = document.querySelectorAll('select');
+          var instances = M.FormSelect.init(elems);
+        });
+      </script>
+
+    </div>
+    <div class="col s12 m12 l4">
+      <h4>Your Account</h4>               <!-- YOUR ACCOUNT -->
+      <ul class="collection">
+        <li class="collection-item amber lighten-4 truncate"><strong>Account No:</strong> {{customer.user.id}}</li>
+        <li class="collection-item amber lighten-4 truncate"><strong>Username:</strong> {{customer.user.username}}</li>
+        <li class="collection-item amber lighten-4 truncate"><strong>Address:</strong> {{customer.address}}</li>
+        {% if has_contract %}
+        <li class="collection-item amber lighten-4 truncate"><strong>Current contract total:</strong> {{contract.curr_total}}</li>
+        {% endif %}
+      </ul>
+      <h5>Your Recent Purchases</h5>      <!-- RECENT PURCHASES -->
+      <div>
+      <table class="striped responsive-table">
+        <thead>
+          <tr class="">
+              <th>Date</th>
+              <th>Item</th>
+              <th>Price</th>
+              <th>Payment Method</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for purchase in purchases %}
+          <tr>
+            <td>{{purchase.DOT}}</td>
+            <td>{{purchase.product.model}}</td>
+            <td>${{purchase.product.price}}</td>
+            <td>{{purchase.payment_method}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

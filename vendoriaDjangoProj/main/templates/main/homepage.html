@@ -1,0 +1,39 @@
+{% extends 'main/header.html' %}
+{% block content %}
+    <h1><strong>Welcome to Vendoria</strong></h1>
+    <p>This... is the homepage.</p>
+    {% if user.is_authenticated %}
+        <p>Welcome back, {{user.username}}</p>
+    {% endif %}
+    {% if user.is_customer %}
+        <!-- Dropdown Trigger -->
+  <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Drop Me!</a>
+
+  <!-- Dropdown Structure -->
+  <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="#!">one</a></li>
+    <li><a href="#!">two</a></li>
+    <li class="divider" tabindex="-1"></li>
+    <li><a href="#!">three</a></li>
+    <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+    <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+  </ul>
+</div>
+      <p>you have customer permissions</p>
+    {% endif %}
+    {% if user.is_marketer %}
+        <p>you have marketer permissions</p>
+    {% endif %}
+    {% if user.is_manufacturer %}
+        <p>you have manufacturer permissions</p>
+    {% endif %}
+    {% if user.is_inventory_worker %}
+        <p>you have inventory worker permissions</p>
+    {% endif %}
+    {% if user.is_shipper %}
+        <p>you have shipper permissions</p>
+    {% endif %}
+    {% if user.is_manager %}
+        <p>you have manager permissions</p>
+    {% endif %}
+{% endblock %}

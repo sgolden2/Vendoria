@@ -1,0 +1,55 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+
+    <h1>Marketer Page</h1>
+    <div class="row">
+        <div class="col sm12 m12 l8">
+            <div id="the_chart-container">{{ output|safe }}</div>
+        </div>
+        <div class="col s12 m12 l4">
+            <form method="post" id="filter_form" name="filter_form">
+                {% csrf_token %}
+                  <div class="input-field col s12">
+                  <h3>Filtering</h3>
+                  <h5>Purchase Grouping</h5>
+                    <select name="grouping" form="filter_form" required>
+                        <option value="" disabled selected>Group purchases by</option>
+                        <option value="1">Individual Product</option>
+                        <option value="2">Product Category</option>
+                        <option value="3">Purchase Location</option>
+                        <option value="4">Purchase Region</option>
+                    </select>
+                      <h5>Purchase Range</h5>
+                        <h6>First Product</h6>
+                        <p class="range-field">
+                          <input name="startid" type="range" id="startid" value="{{min_purchase_id}}"
+                                 min="{{min_purchase_id}}" max="{{max_purchase_id}}" step="1"/>
+                        </p>
+                        <h6>Last Product</h6>
+                        <p class="range-field">
+                          <input name="endid" type="range" id="endid" value="{{max_purchase_id}}"
+                                 min="{{min_purchase_id}}" max="{{max_purchase_id}}" step="1"/>
+                        </p>
+                  </div>
+                <div class="center">
+                    <button class="btn waves-effect waves-light" type="submit" form="filter_form">Apply Filters
+                        <i class="material-icons right">filter_list</i>
+                    </button>
+                </div>
+            </form>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var elems = document.querySelectorAll('select');
+                    var instances = M.FormSelect.init(elems);
+                });
+                window.onload = function() {
+                        var elems  = document.querySelectorAll("input[type=range]");
+                        M.Range.init(elems);
+                };
+            </script>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

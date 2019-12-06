@@ -28,16 +28,18 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
+    'main.apps.MainConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main.apps.MainConfig',
 ]
 
 MIDDLEWARE = [
@@ -76,12 +78,12 @@ WSGI_APPLICATION = 'vendoriaDjangoProj.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'VendoriaDB',
-        'USER': 'sgolden2',
-        'PASSWORD': 'Tesla2000',
-        'HOST': 'localhost',
-        'PORT': '',
+        #'USER': 'sgolden2',
+        #'PASSWORD': 'Tesla2000',
+        #'HOST': 'localhost',
+        #'PORT': '',
     }
 }
 
@@ -123,3 +125,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'main.User'
