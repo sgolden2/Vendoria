@@ -40,20 +40,6 @@ class InventoryRegistrationForm(UserCreationForm):
         return user
 
 
-class ManagerRegistrationForm(UserCreationForm):
-
-    class Meta(UserCreationForm.Meta):
-        model = User
-
-    @transaction.atomic
-    def save(self):
-        user = super().save(commit=False)
-        user.is_manager = True
-        user.save()
-        Manager.objects.create(user=user)
-        return user
-
-
 class ManufacturerRegistrationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):

@@ -49,9 +49,6 @@
                         {% if user.is_shipper %}
                             <li><a href="{% url 'main:shipper_page' %}" class="black-text">Shipper Center</a></li>
                         {% endif %}
-                        {% if user.is_manager %}
-                            <li><a href="{% url 'main:manager_page' %}" class="black-text">Manager Console</a></li>
-                        {% endif %}
                         <li><a href="{% url 'main:logout' %}" class="black-text">Logout</a></li>
                     {% else %}
                         <li><a href="{% url 'main:login' %}" class="black-text">Login</a></li>

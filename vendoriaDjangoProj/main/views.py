@@ -10,7 +10,7 @@ from collections import OrderedDict
 from .fusioncharts import FusionCharts
 from .models import *
 from .forms import CustomerRegistrationForm, InventoryRegistrationForm, ManufacturerRegistrationForm, \
-    MarketerRegistrationForm, ManagerRegistrationForm, ShipperRegistrationForm
+    MarketerRegistrationForm, ShipperRegistrationForm
 
 
 # Create your views here.
@@ -272,15 +272,6 @@ def shipper_page(request):
     return redirect("main:homepage")
 
 
-def manager_page(request):
-    if request.user.is_authenticated:
-        if request.user.is_manager:
-            return render(request,
-                          'main/userpages/manager_page.html')
-    messages.error(request, "You do not have manager permissions!")
-    return redirect("main:homepage")
-
-
 class CustomerRegistrationView(CreateView):
     model = User
     form_class = CustomerRegistrationForm
@@ -328,17 +319,6 @@ class InventoryRegistrationView(CreateView):
 class ShipperRegistrationView(CreateView):
     model = User
     form_class = ShipperRegistrationForm
-    template_name = 'main/user_register.html'
-
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return redirect('main:homepage')
-
-
-class ManagerRegistrationView(CreateView):
-    model = User
-    form_class = ManagerRegistrationForm
     template_name = 'main/user_register.html'
 
     def form_valid(self, form):
