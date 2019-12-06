@@ -2,8 +2,8 @@
 
 {% block content %}
 
-    <h1>Welcome Manufacturer!</h1>
-    <table class = "centered amber lighten-0">
+    <h1 style="font-family: monospace">Welcome, Manufacturer!</h1>
+    <table class = "centered red lighten-3 striped">
         <thead>
           <tr>
               <th>Requested From</th>
@@ -15,12 +15,12 @@
         </thead>
 
         <tbody>
-          {% for red in reorders %}
+          {% for x in red %}
           <tr>
-              <td>{{red.inventory.place}}</td>
-              <td>{{red.inventory.product.model}}</td>
-              <td>{{red.status}}</td>
-              <td>{{red.inventory.quantity}}</td>
+              <td>{{x.inventory.place}}</td>
+              <td>{{x.inventory.product.model}}</td>
+              <td>{{x.status}}</td>
+              <td>{{x.inventory.quantity}}</td>
               <td><form action="#"><p>
       <label>
         <input type="checkbox" />

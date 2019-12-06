@@ -249,8 +249,10 @@ def marketer_page(request):
 def manufacturer_page(request):
     if request.user.is_authenticated:
         if request.user.is_manufacturer:
+            red = Reorder.objects.all()
             return render(request,
-                          'main/userpages/manufacturer_page.html')
+                          'main/userpages/manufacturer_page.html',
+                           context={'red': red})
     messages.error(request, "You do not have manufacturer permissions!")
     return redirect("main:homepage")
 
@@ -258,8 +260,10 @@ def manufacturer_page(request):
 def inventory_page(request):
     if request.user.is_authenticated:
         if request.user.is_inventory_worker:
+            inventory = Inventory.objects.all()
             return render(request,
-                          'main/userpages/inventory_page.html')
+                          'main/userpages/inventory_page.html',
+                           context={'inventory' : inventory})
     messages.error(request, "You do not have inventory permissions!")
     return redirect("main:homepage")
 
@@ -267,8 +271,12 @@ def inventory_page(request):
 def shipper_page(request):
     if request.user.is_authenticated:
         if request.user.is_shipper:
+            ships = Shipment.objects.all()
+            print(ships)
             return render(request,
-                          'main/userpages/shipper_page.html')
+                          'main/userpages/shipper_page.html',
+                           context={'ships': ships}
+                           )
     messages.error(request, "You do not have shipper permissions!")
     return redirect("main:homepage")
 
