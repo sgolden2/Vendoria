@@ -28,7 +28,7 @@ urlpatterns = [
     path('register/manufacturer/', views.ManufacturerRegistrationView.as_view(), name='manufacturer_registration'),
     path('register/inventory/', views.InventoryRegistrationView.as_view(), name='inventory_registration'),
     path('register/shipper/', views.ShipperRegistrationView.as_view(), name='shipper_registration'),
-    path('register/manager/', views.ManagerRegistrationView.as_view(), name='manager_registration'),
+
     path('logout/', views.logout_page, name='logout'),
 
     path('products/', views.customer_page, name='customer_page'),
@@ -36,7 +36,7 @@ urlpatterns = [
     path('manufacturer-center/', views.manufacturer_page, name='manufacturer_page'),
     path('inventory/', views.inventory_page, name='inventory_page'),
     path('shipper-center/', views.shipper_page, name='shipper_page'),
-    path('manager-console/', views.manager_page, name='manager_page'),
+
 
     path('contracts/', views.contracts, name='contracts'),
     path('cards/', views.cards, name='cards'),

@@ -189,8 +189,9 @@ def marketer_page(request):
         return redirect("main:homepage")
 
     if not request.method == 'POST':
-        purchases = Purchase.objects.values('product__category')
-        purchases = purchases.annotate(Count('product__category'))
+        s = 'product__category'
+        purchases = Purchase.objects.values(s)
+        purchases = purchases.annotate(Count(s))
         purchases = list(purchases)
     else:
         filters = request.POST

@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 from django.forms import DateField, DateInput, CharField, ModelChoiceField, Select
-from .models import User, Customer, InventoryWorker, Manager, Manufacturer, Marketer, Shipper, Region
+from .models import User, Customer, InventoryWorker, Manufacturer, Marketer, Shipper, Region
 
 
 class CustomerRegistrationForm(UserCreationForm):

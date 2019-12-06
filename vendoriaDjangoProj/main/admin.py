@@ -26,7 +26,6 @@ models_to_register = (
     Marketer,
     Manufacturer,
     InventoryWorker,
-    Manager,
     Shipper,
     Region,
     Product,
